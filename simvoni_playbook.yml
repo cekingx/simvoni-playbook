@@ -4,23 +4,41 @@
 
   tasks:
     - name: Install required system packages
-      apt: name={{ item }} state=latest update_cache=yes
+      apt: 
+        name: '{{ item }}' 
+        state: latest 
+        update_cache: yes
       loop: [ 'software-properties-common', 'wget', 'unzip' ]
 
-- hosts: node
+# - hosts: node
+#   become: true
+#   vars_files: vars/simvoni_vars.yml
+
+#   tasks:
+#     - name: Download and Unarchive Openethereum
+#       ansible.builtin.unarchive:
+#         src: "{{ openethereum_release }}"
+#         dest: /usr/local/bin
+#         remote_src: yes
+
+#     - name: Change file permission
+#       ansible.builtin.file:
+#         path: '/usr/local/bin/{{ item }}'
+#         state: file
+#         mode: '0755'
+#       loop: [ openethereum, openethereum-evm, ethkey, ethstore ]
+
+- hosts: webserver
   become: true
   vars_files: vars/simvoni_vars.yml
 
   tasks:
-    - name: Download and Unarchive Openethereum
-      ansible.builtin.unarchive:
-        src: "{{ openethereum_release }}"
-        dest: /usr/local/bin
-        remote_src: yes
+    - name: Download and install Nodejs
+      ansible.builtin.shell:
+        cmd: snap install node --classic
 
-    - name: Change file permission
-      ansible.builtin.file:
-        path: '/usr/local/bin/{{ item }}'
-        state: file
-        mode: '0755'
-      loop: [ openethereum, openethereum-evm, ethkey, ethstore ]
+    - name: Download pm2
+      community.general.npm:
+        name: pm2
+        global: yes
+        production: yes
