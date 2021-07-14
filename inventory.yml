@@ -2,12 +2,14 @@
 webserver:
   hosts:
     webserver01:
-      ansible_host: 34.101.199.168
+      ansible_host: 34.101.200.222
 
 node:
   hosts:
     node01:
-      ansible_host: 34.101.200.222
+      ansible_host: 34.101.145.249
+    node02:
+      ansible_host: 34.101.65.155
 
 vars:
   ansible_user: cekingx
