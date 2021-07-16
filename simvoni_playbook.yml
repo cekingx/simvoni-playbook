@@ -43,10 +43,17 @@
         mode: '0755'
       loop: [ openethereum, openethereum-evm, ethkey, ethstore ]
 
+    - name: Clone genesis block
+      become: false
+      ansible.builtin.git:
+        repo: https://github.com/cekingx/simvoni-PoA.git
+        dest: '/home/cekingx/simvoni-PoA'
+
     - name: Clone eth explorer
+      become: false
       ansible.builtin.git:
         repo: https://github.com/cekingx/explorer.git
-        dest: '$HOME/eth-explorer'
+        dest: '/home/cekingx/eth-explorer'
 
 # - hosts: webserver
 #   become: true
