@@ -7,9 +7,9 @@ webserver:
 node:
   hosts:
     node01:
-      ansible_host: 34.101.199.168
+      ansible_host: 34.101.200.222
     node02:
-      ansible_host: 34.101.145.249
+      ansible_host: 34.101.199.168
 
 vars:
   ansible_user: cekingx
