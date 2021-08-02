@@ -30,6 +30,12 @@
   vars_files: vars/simvoni_vars.yml
 
   tasks:
+    - name: Install Snappy
+      apt:
+        name: libsnappy-dev
+        state: latest
+        update_cache: yes
+
     - name: Download and Unarchive Openethereum
       ansible.builtin.unarchive:
         src: "{{ openethereum_release }}"
@@ -42,6 +48,14 @@
         state: file
         mode: '0755'
       loop: [ openethereum, openethereum-evm, ethkey, ethstore ]
+
+    - name: Download ldb and sst_dump
+      get_url:
+        url: 'https://storage.googleapis.com/simvoni-bucket/{{ item }}'
+        dest: '/usr/local/bin/{{ item }}'
+        mode: '0755'
+      loop: [ ldb, sst_dump ]
+
 
     - name: Clone genesis block
       become: false
